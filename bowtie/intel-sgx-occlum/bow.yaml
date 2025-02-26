@@ -1,0 +1,12 @@
+includes:
+  - base.yaml
+targets:
+  - target: /bin
+    copy:
+      - files:
+        - /usr/bin/bowtie2-align-s
+        - /usr/bin/bowtie2
+  - target: /
+    copy:
+      - dirs:
+        - /bowtie_input_files

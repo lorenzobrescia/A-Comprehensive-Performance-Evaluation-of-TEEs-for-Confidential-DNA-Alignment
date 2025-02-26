@@ -1,0 +1,57 @@
+loader.entrypoint = "file:{{ gramine.libos }}"
+loader.log_level = "none"
+
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/{{ arch_libdir }}"
+
+loader.argv = ["/bowtie2-align-s", 
+"-x", "/input/index/hg38",
+"-S", "/sample.sam",
+"-p", "{{ ths }}",
+"-1", "/input/1.fastq",
+"-2", "/input/2.fastq",
+]
+
+libos.entrypoint = "/bowtie2-align-s"
+
+fs.mounts = [
+  { path = "/bowtie2-align-s", uri = "file:/usr/bin/bowtie2-align-s" },
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+
+  { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
+  { path = "/usr{{ arch_libdir }}", uri = "file:/usr{{ arch_libdir }}" },
+
+  { path = "/input/1.fastq", uri = "file:/bowtie_input_files/reads/SRR31527206/1.fastq" },
+  { path = "/input/2.fastq", uri = "file:/bowtie_input_files/reads/SRR31527206/2.fastq" },
+  { path = "/input/index/", uri = "file:/bowtie_input_files/index/" }
+]
+
+{% if env.get('edmm', 0) == '1' %}
+sgx.enclave_size = "32G"
+sgx.edmm_enable = true
+sgx.max_threads = 32
+{% else %}
+sgx.enclave_size = "8G"
+sgx.edmm_enable = false
+sgx.max_threads = 22
+{% endif %}
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+  "file:/usr/{{ arch_libdir }}/", 
+  "file:/usr/bin/bowtie2-align-s",
+
+  "file:/bowtie_input_files/reads/SRR31527206/1.fastq",
+  "file:/bowtie_input_files/reads/SRR31527206/2.fastq",
+  "file:/bowtie_input_files/index/",
+ 
+  "file:/etc/host.conf",
+  "file:/etc/hosts",
+  "file:/etc/nsswitch.conf",
+  "file:/etc/resolv.conf"
+]
+
+sgx.allowed_files = [
+  "file:sample.sam"
+]
