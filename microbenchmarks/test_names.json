@@ -1,0 +1,13 @@
+{
+    "names" : [
+        "pts/cachebench-1.2.0",
+        "pts/hackbench-1.0.0",
+        "pts/ipc-benchmark-1.0.0",
+        "pts/mutex-1.0.0",
+        "pts/osbench-1.0.2",
+        "pts/ramspeed-1.4.3",
+        "pts/stream-1.3.4",
+        "pts/stress-ng-1.13.0",
+        "pts/sysbench-1.1.0"
+    ]
+}
