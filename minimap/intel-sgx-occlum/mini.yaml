@@ -1,0 +1,15 @@
+includes:
+  - base.yaml
+targets:
+  - target: /bin
+    copy:
+      - files:
+        - /usr/bin/minimap2
+  - target: /
+    copy:
+      - dirs:
+        - /minimap_input_files
+  - target: /lib
+    copy:
+      - files:
+          - /lib/x86_64-linux-gnu/libgcc_s.so.1

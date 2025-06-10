@@ -1,0 +1,57 @@
+loader.entrypoint = "file:{{ gramine.libos }}"
+loader.log_level = "none"
+
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/{{ arch_libdir }}"
+
+loader.argv = ["/minimap2", 
+"-t", "{{ ths }}",
+"-x", "sr",
+"/input/index/hg38.mmi", 
+"/input/1.fastq",
+"/input/2.fastq",
+]
+
+libos.entrypoint = "/minimap2"
+
+fs.mounts = [
+  { path = "/minimap2", uri = "file:/usr/bin/minimap2" },
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+
+  { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
+  { path = "/usr{{ arch_libdir }}", uri = "file:/usr{{ arch_libdir }}" },
+
+  { path = "/input/1.fastq", uri = "file:/minimap_input_files/reads/SRR31527206/1.fastq" },
+  { path = "/input/2.fastq", uri = "file:/minimap_input_files/reads/SRR31527206/2.fastq" },
+  { path = "/input/index/hg38.mmi", uri = "file:/minimap_input_files/index/hg38.mmi" }
+]
+
+{% if env.get('edmm', 0) == '1' %}
+sgx.enclave_size = "32G"
+sgx.edmm_enable = true
+sgx.max_threads = 32
+{% else %}
+sgx.enclave_size = "16G"
+sgx.edmm_enable = false
+sgx.max_threads = 22
+{% endif %}
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+  "file:/usr/{{ arch_libdir }}/", 
+  "file:/usr/bin/minimap2",
+
+  "file:/minimap_input_files/reads/SRR31527206/1.fastq",
+  "file:/minimap_input_files/reads/SRR31527206/2.fastq",
+  "file:/minimap_input_files/index/hg38.mmi",
+ 
+  "file:/etc/host.conf",
+  "file:/etc/hosts",
+  "file:/etc/nsswitch.conf",
+  "file:/etc/resolv.conf"
+]
+
+sgx.allowed_files = [
+  "file:sample.sam"
+]
