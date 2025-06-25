@@ -14,6 +14,13 @@ RUN git clone https://github.com/lh3/minimap2.git && \
 
 # Move to the /root directory
 WORKDIR /root
+RUN git clone https://github.com/lh3/minimap2.git && \
+    cd minimap2 && \
+    git checkout v2.26 && \
+    make && \
+    cp minimap2 /usr/bin/ && \
+    cd .. && \
+    rm -rf minimap2
 
 # Move to the /root directory
 WORKDIR /root

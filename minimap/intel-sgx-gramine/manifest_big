@@ -4,6 +4,7 @@ loader.log_level = "none"
 loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/{{ arch_libdir }}"
 
 loader.argv = ["/minimap2", 
+"-o", "/sample.sam",
 "-t", "{{ ths }}",
 "-x", "sr",
 "/input/index/hg38.mmi", 

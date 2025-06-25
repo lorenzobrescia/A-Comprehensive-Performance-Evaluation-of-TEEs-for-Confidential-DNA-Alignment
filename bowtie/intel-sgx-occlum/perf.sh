@@ -1,7 +1,7 @@
 #!/bin/bash
-N_ITER=3
+N_ITER=1
 N_MIN_TH=1
-N_MAX_TH=16
+N_MAX_TH=1
 MSG_TOTAL_TIME="$N_ITER iterations, min $N_MIN_TH, max $N_MAX_TH threads"
 RESULT_FOLDER="/root/demos/bowtie2/results"
 

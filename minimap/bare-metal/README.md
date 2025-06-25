@@ -1,11 +1,11 @@
-# Bowtie2 in bare-metal
-In order to run Bowtie2 inside a machine, it is necessary to:
+# Minimap2 in bare-metal
+In order to run Minimap2 inside a machine, it is necessary to:
 
 1. Download open input data
-2. Execute Bowtie2 on previuosly downloaded data within the CVM
+2. Execute Minimap2 on previuosly downloaded data within the CVM
 
-# 1: Download Bowtie2 input data
-In order to work Bowtie2 needs a reference genome and DNA sequences.
+# 1: Download Minimap2 input data
+In order to work Minimap2 needs a reference genome and DNA sequences.
 
 If you did not install [minimap2](https://github.com/lh3/minimap2) before, it could be necessary if you prefer to build the index reference by hand:
 ```bash
@@ -48,8 +48,8 @@ fasterq-dump SRR30170738
 # Now you have pair SRR31527206_1.fastq and SRR31527206_2.fastq
 ```
 
-# 2: Execute Bowtie2
-Prepare all Bowtie input files in a folder named `minimap_input_files/`
+# 2: Execute Minimap2
+Prepare all Minimap input files in a folder named `minimap_input_files/`
 ```bash
 ├── index
 │   ├── hg38.mmi
@@ -65,12 +65,12 @@ Prepare all Bowtie input files in a folder named `minimap_input_files/`
 
 Then build the Docker image that will be able to launch the performance script `perf.sh`, the Dockerfile is provided in the current folder:
 ```bash
-docker build -t bm-mini:performance .
+docker build -t bm-minimap:performance .
 ```
 
 Finally run the container, attach to it and run the script.
 ```bash
-docker run -itd --name bm bm-mini:performance
+docker run -itd --name bm bm-minimap:performance
 docker attach bm
 nohup ./perf.sh &
 ```

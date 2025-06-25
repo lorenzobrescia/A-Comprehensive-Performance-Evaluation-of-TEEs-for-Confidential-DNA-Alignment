@@ -1,7 +1,7 @@
 #!/bin/bash
-N_ITER=2
+N_ITER=1
 N_MIN_TH=1
-N_MAX_TH=16
+N_MAX_TH=1
 MSG_TOTAL_TIME="$N_ITER iterations, min $N_MIN_TH, max $N_MAX_TH threads"
 RESULT_FOLDER="results"
 
@@ -61,7 +61,7 @@ echo "$elapsed_total_time" >> $RESULT_FOLDER/total_execution_time.txt
 echo "--------- end SMALL DIRECT -----------" >> $RESULT_FOLDER/total_execution_time.txt
 
 
-echo "--------- start SMALL 8G -----------" >> $RESULT_FOLDER/total_execution_time.txt
+echo "--------- start SMALL 16G -----------" >> $RESULT_FOLDER/total_execution_time.txt
 total_start_time=$(date +%s)
 for ((i=1; i<=$N_ITER; i++))
 do
@@ -70,7 +70,7 @@ while [ $c -le $N_MAX_TH ]
 do
 	# Create the directory to store results
 	echo "Iteration $i, number of threads $c" >> $RESULT_FOLDER/stat.txt
-	dir="$RESULT_FOLDER/8G/perf_$(two_digit_form $c)TH/"
+	dir="$RESULT_FOLDER/16G/perf_$(two_digit_form $c)TH/"
 	mkdir -p ${dir}
 
   # Create manifest.sgx
@@ -100,7 +100,7 @@ done
 total_end_time=$(date +%s)
 elapsed_total_time=$((total_end_time - total_start_time))
 echo "$elapsed_total_time" >> $RESULT_FOLDER/total_execution_time.txt
-echo "--------- end SMALL 8G -----------" >> $RESULT_FOLDER/total_execution_time.txt
+echo "--------- end SMALL 16G -----------" >> $RESULT_FOLDER/total_execution_time.txt
 
 
 echo "--------- start SMALL EDMM -----------" >> $RESULT_FOLDER/total_execution_time.txt
@@ -189,7 +189,7 @@ echo "$elapsed_total_time" >> $RESULT_FOLDER/total_execution_time.txt
 echo "--------- end BIG DIRECT -----------" >> $RESULT_FOLDER/total_execution_time.txt
 
 
-echo "--------- start BIG 8G -----------" >> $RESULT_FOLDER/total_execution_time.txt
+echo "--------- start BIG 16G -----------" >> $RESULT_FOLDER/total_execution_time.txt
 total_start_time=$(date +%s)
 for ((i=1; i<=$N_ITER; i++))
 do
@@ -198,7 +198,7 @@ while [ $c -le $N_MAX_TH ]
 do
 	# Create the directory to store results
 	echo "Iteration $i, number of threads $c" >> $RESULT_FOLDER/stat.txt
-	dir="$RESULT_FOLDER/8G/perf_$(two_digit_form $c)TH/"
+	dir="$RESULT_FOLDER/16G/perf_$(two_digit_form $c)TH/"
 	mkdir -p ${dir}
 
   # Create manifest.sgx
@@ -228,7 +228,7 @@ done
 total_end_time=$(date +%s)
 elapsed_total_time=$((total_end_time - total_start_time))
 echo "$elapsed_total_time" >> $RESULT_FOLDER/total_execution_time.txt
-echo "--------- end BIG 8G -----------" >> $RESULT_FOLDER/total_execution_time.txt
+echo "--------- end BIG 16G -----------" >> $RESULT_FOLDER/total_execution_time.txt
 
 
 echo "--------- start BIG EDMM -----------" >> $RESULT_FOLDER/total_execution_time.txt

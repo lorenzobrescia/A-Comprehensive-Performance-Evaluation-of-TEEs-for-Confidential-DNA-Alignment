@@ -1,22 +1,22 @@
-# Bowtie2
-In order to run Bowtie2 inside Occlum SGX Library OS, it is necessary to:
+# Minimap2
+In order to run Minimap2 inside Occlum SGX Library OS, it is necessary to:
 
 1. Download open input data
-2. Execute Bowtie2 on previuosly downloaded data within the Occlum LibOS
+2. Execute Minimap2 on previuosly downloaded data within the Occlum LibOS
 
-# 1: Download Bowtie2 input data
-In order to work Bowtie2 needs a reference genome and DNA sequences.
+# 1: Download Minimap2 input data
+In order to work Minimap2 needs a reference genome and DNA sequences.
 
-If you did not install [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml) before, it could be necessary if you prefer to build the index reference by hand:
+If you did not install [minimap2](https://github.com/lh3/minimap2) before, it could be necessary if you prefer to build the index reference by hand:
 ```bash
-sudo apt install bowtie2
+sudo apt install minimap2
 ```
 
-To build the reference genome, download it in `.fa` exetension and use `bowtie2-build` tool to generate the structure:
+To build the reference genome, download it in `.fa` exetension and use `minimap2` tool to generate the structure:
 ```bash
 wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 gunzip hg38.fa.gz
-bowtie2-build hg38.fa hg38
+minimap2 -d hg38.mmi hg38.fa
 ```
 
 Install and configure [SRA toolkit](https://github.com/ncbi/sra-tools/wiki):
@@ -45,7 +45,7 @@ fasterq-dump SRR30170738
 # Now you have pair SRR31527206_1.fastq and SRR31527206_2.fastq
 ```
 
-# 4: Execute Bowtie2 in Gramine LibOS
+# 2: Execute Minimap2 in Occlum LibOS
 Prepare all Bowtie input files in a folder named `minimap_input_files/`
 ```bash
 ├── index
@@ -62,12 +62,12 @@ Prepare all Bowtie input files in a folder named `minimap_input_files/`
 
 Then build the Docker image that will be able to launch the performance script `perf.sh`, the Dockerfile is provided in the current folder:
 ```bash
-docker build -t occlum-mini:performance .
+docker build -t occlum-minimap:performance .
 ```
 
 Finally run the container, attach to it and run the script.
 ```bash
-docker run --name occlum -itd --privileged -v /dev/sgx:/dev/sgx occlum-mini:performance
+docker run --name occlum -itd --privileged -v /dev/sgx:/dev/sgx occlum-minimap:performance
 docker attach occlum
 nohup ./perf.sh &
 ```

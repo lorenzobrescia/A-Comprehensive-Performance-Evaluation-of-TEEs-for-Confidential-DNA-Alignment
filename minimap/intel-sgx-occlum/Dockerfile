@@ -1,11 +1,18 @@
 FROM occlum/occlum:0.30.0-ubuntu20.04
 
 # Install necessary tools to compile minimap2 from source
-RUN apt-get update && apt-get install -y unzip g++ minimap2
+RUN apt-get update && apt-get install -y unzip g++ make git
 
 # Move to the /root directory
 WORKDIR /root
-
+RUN git clone https://github.com/lh3/minimap2.git && \
+    cd minimap2 && \
+    git checkout v2.26 && \
+    make && \
+    cp minimap2 /usr/bin/ && \
+    cd .. && \
+    rm -rf minimap2
+    
 # Copy a directory from host to container directory
 COPY minimap_input_files/index /minimap_input_files/index
 COPY minimap_input_files/reads /minimap_input_files/reads
@@ -37,7 +44,3 @@ RUN ENABLE_EDMM=Y occlum build
 WORKDIR /root/demos/minimap2
 COPY perf.sh .
 RUN chmod +x perf.sh
-
-# Example of run with 16 threads and EDMM enabled
-# RUN ENABLE_EDMM=Y occlum build
-# RUN occlum run /bin/bowtie2-align-s -x "/minimap_input_files/index/hg38" -p "32" -1 "/minimap_input_files/reads/SRR31527206/1.fastq" -2 "/minimap_input_files/reads/SRR31527206/2.fastq" -S "/host/sample.sam"
