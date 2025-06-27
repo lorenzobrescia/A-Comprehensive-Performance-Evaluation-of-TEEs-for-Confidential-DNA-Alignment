@@ -1,4 +1,4 @@
-loader.entrypoint = "file:{{ gramine.libos }}"
+# loader.entrypoint = "file:{{ gramine.libos }}"
 loader.log_level = "none"
 
 loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/{{ arch_libdir }}"
